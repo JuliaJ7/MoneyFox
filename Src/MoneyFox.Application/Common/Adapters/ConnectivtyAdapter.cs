@@ -1,4 +1,4 @@
-﻿using NLog;
+﻿using Microsoft.AppCenter.Crashes;
 using Xamarin.Essentials;
 
 namespace MoneyFox.Application.Common.Adapters
@@ -17,8 +17,6 @@ namespace MoneyFox.Application.Common.Adapters
     /// <inheritdoc />
     public class ConnectivityAdapter : IConnectivityAdapter
     {
-        private readonly Logger logger = LogManager.GetCurrentClassLogger();
-
         /// <inheritdoc />
         public bool IsConnected
         {
@@ -30,7 +28,8 @@ namespace MoneyFox.Application.Common.Adapters
                 }
                 catch (PermissionException ex)
                 {
-                    logger.Error(ex, "Permission denied on check for connection");
+                    Crashes.TrackError(ex);
+
                     return false;
                 }
             }

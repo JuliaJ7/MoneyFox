@@ -2,6 +2,8 @@
 using CommonServiceLocator;
 using Foundation;
 using MediatR;
+using Microsoft.AppCenter.Analytics;
+using Microsoft.AppCenter.Crashes;
 using Microsoft.Identity.Client;
 using MoneyFox.Application.Common;
 using MoneyFox.Application.Common.Adapters;
@@ -93,11 +95,11 @@ namespace MoneyFox.iOS
             var config = new LoggingConfiguration();
 
             var logfile = new FileTarget("logfile")
-            {
-                FileName = Path.Combine(FileSystem.CacheDirectory, AppConstants.LogFileName),
-                AutoFlush = true,
-                ArchiveEvery = FileArchivePeriod.Month
-            };
+                          {
+                              FileName = Path.Combine(FileSystem.CacheDirectory, AppConstants.LogFileName),
+                              AutoFlush = true,
+                              ArchiveEvery = FileArchivePeriod.Month
+                          };
             var debugTarget = new DebugTarget("console");
 
 #if !DEBUG
@@ -137,10 +139,10 @@ namespace MoneyFox.iOS
                 successful = true;
                 logManager.Debug("Background fetch finished successfully");
             }
-            catch (Exception ex)
+            catch(Exception ex)
             {
                 successful = false;
-                logManager.Warn(ex, "Background fetch finished unsuccessfully!");
+                logManager.Warn("Background fetch finished unsuccessfully!", ex);
             }
 
             completionHandler(successful
@@ -161,7 +163,7 @@ namespace MoneyFox.iOS
         {
             var settingsFacade = new SettingsFacade(new SettingsAdapter());
 
-            if (!settingsFacade.IsBackupAutouploadEnabled || !settingsFacade.IsLoggedInToBackupService)
+            if(!settingsFacade.IsBackupAutouploadEnabled || !settingsFacade.IsLoggedInToBackupService)
                 return;
 
             try
@@ -169,7 +171,7 @@ namespace MoneyFox.iOS
                 var backupService = ServiceLocator.Current.GetInstance<IBackupService>();
                 await backupService.RestoreBackupAsync();
             }
-            catch (Exception ex)
+            catch(Exception ex)
             {
                 logManager.Error(ex, "Sync Backup Failed.");
                 Debug.Write(ex);
@@ -192,7 +194,7 @@ namespace MoneyFox.iOS
 
                 logManager.Debug("ClearPayments Job Finished.");
             }
-            catch (Exception ex)
+            catch(Exception ex)
             {
                 logManager.Error(ex, "Clear Payments Failed!");
             }

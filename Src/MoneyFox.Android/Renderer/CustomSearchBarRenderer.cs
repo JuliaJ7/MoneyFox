@@ -20,8 +20,6 @@ namespace MoneyFox.Droid.Renderer
 {
     public class CustomSearchBarRenderer : SearchBarRenderer
     {
-        private readonly Logger logger = LogManager.GetCurrentClassLogger();
-
         public CustomSearchBarRenderer(Context context) : base(context)
         {
         }
@@ -53,7 +51,7 @@ namespace MoneyFox.Droid.Renderer
             }
         }
 
-        private void TrySetCursorPointerColorNew(EditText editText)
+        private static void TrySetCursorPointerColorNew(EditText editText)
         {
             try
             {
@@ -73,7 +71,7 @@ namespace MoneyFox.Droid.Renderer
             }
             catch (Exception ex)
             {
-                logger.Error(ex, "Issue in rendering custom search bar.");
+                LogManager.GetCurrentClassLogger().Error(ex);
             }
         }
 
@@ -123,7 +121,7 @@ namespace MoneyFox.Droid.Renderer
             }
             catch (Exception ex)
             {
-                logger.Error(ex, "Issue on setting the cursor color for custom search bar.");
+                LogManager.GetCurrentClassLogger().Error(ex);
             }
         }
 

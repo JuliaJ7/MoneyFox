@@ -3,6 +3,7 @@ using System.IO;
 using Android.App;
 using Android.Runtime;
 using Autofac;
+using MoneyFox.Application.Common;
 using MoneyFox.Application.Common.Constants;
 using MoneyFox.Presentation;
 using NLog;

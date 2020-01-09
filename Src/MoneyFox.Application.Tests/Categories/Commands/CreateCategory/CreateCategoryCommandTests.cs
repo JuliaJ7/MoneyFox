@@ -31,12 +31,6 @@ namespace MoneyFox.Application.Tests.Categories.Commands.CreateCategory
 
         public void Dispose()
         {
-            Dispose(true);
-            GC.SuppressFinalize(this);
-        }
-
-        protected virtual void Dispose(bool disposing)
-        {
             InMemoryEfCoreContextFactory.Destroy(context);
         }
 
